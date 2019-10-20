@@ -6,15 +6,8 @@
 
 package Formularios;
 
-import Clases.Flags;
 import Clases.Productos;
-import Conexion.Conexion;
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -22,8 +15,9 @@ import java.util.logging.Logger;
  */
 public class NuevoProducto extends javax.swing.JFrame {
     
-    int band;
-     Productos p = new Productos();
+    String band;
+    String Valor;
+    Productos p = new Productos();
     /** Creates new form NuevoProducto */
     public NuevoProducto() {
         
@@ -57,10 +51,10 @@ public class NuevoProducto extends javax.swing.JFrame {
         txtCant = new javax.swing.JTextField();
         btnFuncion = new javax.swing.JButton();
         btnSalir = new javax.swing.JButton();
-        txtBand = new javax.swing.JTextField();
         lblaux = new javax.swing.JLabel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("PRODUCTOS");
 
         jPanel1.setPreferredSize(new java.awt.Dimension(800, 640));
 
@@ -70,6 +64,11 @@ public class NuevoProducto extends javax.swing.JFrame {
         jLabel1.setText("Codigo");
 
         txtCod.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        txtCod.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtCodKeyTyped(evt);
+            }
+        });
 
         btnBuscar.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         btnBuscar.setText("Buscar");
@@ -83,6 +82,11 @@ public class NuevoProducto extends javax.swing.JFrame {
         jLabel2.setText("Marca");
 
         txtMarca.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        txtMarca.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtMarcaKeyTyped(evt);
+            }
+        });
 
         jLabel3.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel3.setText("Descripcion");
@@ -99,11 +103,21 @@ public class NuevoProducto extends javax.swing.JFrame {
         jLabel5.setText("Costo Unitario $");
 
         txtCosto.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        txtCosto.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtCostoKeyTyped(evt);
+            }
+        });
 
         jLabel6.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel6.setText("Cantidad");
 
         txtCant.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        txtCant.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtCantKeyTyped(evt);
+            }
+        });
 
         btnFuncion.setText("jButton2");
         btnFuncion.addActionListener(new java.awt.event.ActionListener() {
@@ -112,7 +126,7 @@ public class NuevoProducto extends javax.swing.JFrame {
             }
         });
 
-        btnSalir.setText("jButton3");
+        btnSalir.setText("Cancelar");
         btnSalir.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnSalirActionPerformed(evt);
@@ -148,9 +162,7 @@ public class NuevoProducto extends javax.swing.JFrame {
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addComponent(btnBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(35, 35, 35)
-                                .addComponent(txtBand, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(44, 44, 44)
+                                .addGap(85, 85, 85)
                                 .addComponent(lblaux))
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addComponent(jLabel3)
@@ -169,14 +181,14 @@ public class NuevoProducto extends javax.swing.JFrame {
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(txtCod, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnBuscar)
-                    .addComponent(txtBand, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(lblaux, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addComponent(lblaux, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel1)
+                        .addComponent(txtCod, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnBuscar)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
@@ -232,77 +244,107 @@ public class NuevoProducto extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
     
     void Funcion(){
-        Principal p = new Principal();
-        band = p.band;
+        Principal c = new Principal();
+        String aux;
+        aux = "hola";
+        System.out.println(c.band +" Funcion");
         
-        //band = Integer.parseInt(band1);
-        if(band == 1){
+        if(c.band.equals("1")){
+            band = "1";
             btnBuscar.setVisible(false);
             btnFuncion.setText("Agregar");
             
-        }else if(band == 2){
+        }else if(c.band.equals("2")){
+            band = "2";
             btnBuscar.setVisible(true);
             btnFuncion.setText("Actualizar");
-        }else{
-        
+        }else if(c.band.equals("3")){
+            band = "3";
+            btnFuncion.setText("Descargar");
         }
         
     }
     
     private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed
-        
+        this.dispose();
     }//GEN-LAST:event_btnSalirActionPerformed
 
     private void btnFuncionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFuncionActionPerformed
        
 
-        if(band == 1){
-            p.Ingresar(txtCod.getText(), txtCosto.getText(), txtMarca.getText(), txtCant.getText(), txtDes.getText(), (String) cbxTipo.getSelectedItem());
-        }else if (band == 2){
-            p.Update(txtCod.getText(), txtCosto.getText(), txtMarca.getText(), txtCant.getText(), txtDes.getText(), (String) cbxTipo.getSelectedItem());
-        }else{
-            System.out.println("Error");
+        if(band.equals("1")){
+            p.Comprobar(txtCod.getText());
+            System.out.println(p.band2 + "---" );
+            
+            if(p.band2 == true){
+                p.Ingresar(txtCod.getText(), txtCosto.getText(), txtMarca.getText(), txtCant.getText(), txtDes.getText(), (String) cbxTipo.getSelectedItem());
+                Limpiar();
+            }else{
+                //System.out.println("El producto ya existe");
+                JOptionPane.showMessageDialog(null,"El Producto ya Existe");
+            }
+        }else if (band.equals("2")){
+            p.Update(Valor, txtCod.getText(), txtCosto.getText(), txtMarca.getText(), txtCant.getText(), txtDes.getText(), (String) cbxTipo.getSelectedItem());
+            Limpiar();
+        }else if(band.equals("3")){
+            p.Descargar(Valor);
+            Limpiar();
         }
        
         
     }//GEN-LAST:event_btnFuncionActionPerformed
 
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
-        p.Busqueda();
+        Valor = txtCod.getText();
+        p.Busqueda(Valor);
+        txtCod.setText(p.cod);
+        txtMarca.setText(p.marca);
+        txtDes.setText(p.des);
+        txtCant.setText(p.cant);
+        txtCosto.setText(p.pU);
+        cbxTipo.setSelectedItem(p.tipo);
+        
     }//GEN-LAST:event_btnBuscarActionPerformed
-    
-    public String Busqueda(){
-        
-        Conexion conn= new Conexion();
-        Connection cn = conn.Conexion();
-        String valor = "3";
-        System.out.println(txtCod.getText());
-        String sql = "SELECT `id`, cod, marca, tipo, cant, descripcion, pUnitario  FROM productos WHERE id='"+valor+"';";
-         try {
-             
-            Statement st= cn.createStatement();
-            ResultSet rs = st.executeQuery(sql);
-            
-            
-            while(rs.next()) {
-                txtCod.setText(rs.getString("cod"));
-                System.out.println(rs.getString("cod"));
-                txtMarca.setText(rs.getString("marca"));
-                System.out.println(rs.getString("marca"));
-                cbxTipo.setSelectedItem(rs.getString("tipo"));
-                System.out.println(rs.getString("tipo"));
-                txtCant.setText(rs.getString("cant"));
-                txtDes.setText(rs.getString("descripcion"));
-                txtCosto.setText(rs.getString("pUnitario"));
-                
-            }
-          
-        
-        } catch (SQLException ex) {
-            Logger.getLogger(NuevoProducto.class.getName()).log(Level.SEVERE, null, ex);
+
+    private void txtCodKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCodKeyTyped
+        char c=evt.getKeyChar();
+        if(c<'0'||c>'9') {
+            evt.consume();
+            JOptionPane.showMessageDialog(null,"Campo Exclusivo para numeros");
         }
-        return null;
+            else
+            if(txtCod.getText().toString().length()>=13){
+                JOptionPane.showMessageDialog(null,"Solo se permiten 13 digitos");
+                evt.consume();
+            }
+    }//GEN-LAST:event_txtCodKeyTyped
+
+    private void txtCantKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCantKeyTyped
+        char c = evt.getKeyChar();
+        if(c < '0' || c > '9' )evt.consume();
+    }//GEN-LAST:event_txtCantKeyTyped
+
+    private void txtCostoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCostoKeyTyped
+        char c = evt.getKeyChar();
+        if(c!='.' && c < '0' || c > '9' )evt.consume();
+    }//GEN-LAST:event_txtCostoKeyTyped
+
+    private void txtMarcaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtMarcaKeyTyped
+        char c=evt.getKeyChar();
+        if( c!='&' && c!=' ' && (c<'ñ' || c>'Ñ') && (c<'0'||c>'9') && (c<'a' || c > 'z') && (c<'A' || c>'Z')) {
+            evt.consume();
+        }
+            else
+            if(txtMarca.getText().toString().length()>=25){
+                JOptionPane.showMessageDialog(null,"Solo se permiten 25 digitos");
+                evt.consume();
+            }
+    }//GEN-LAST:event_txtMarcaKeyTyped
+    
+    void Limpiar(){
+        txtCod.setText("");txtMarca.setText("");txtDes.setText("");txtCant.setText("");txtCosto.setText("");cbxTipo.setSelectedItem(" Selecione uno ");
     }
+    
     /**
      * @param args the command line arguments
      */
@@ -342,7 +384,7 @@ public class NuevoProducto extends javax.swing.JFrame {
     private javax.swing.JButton btnBuscar;
     private javax.swing.JButton btnFuncion;
     private javax.swing.JButton btnSalir;
-    public static javax.swing.JComboBox<String> cbxTipo;
+    public transient javax.swing.JComboBox<String> cbxTipo;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -352,12 +394,11 @@ public class NuevoProducto extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     public static javax.swing.JLabel lblaux;
-    public static javax.swing.JTextField txtBand;
     public transient javax.swing.JTextField txtCant;
-    public static javax.swing.JTextField txtCod;
-    public static javax.swing.JTextField txtCosto;
-    public static javax.swing.JTextField txtDes;
-    public static javax.swing.JTextField txtMarca;
+    public transient javax.swing.JTextField txtCod;
+    public transient javax.swing.JTextField txtCosto;
+    public transient javax.swing.JTextField txtDes;
+    public transient javax.swing.JTextField txtMarca;
     // End of variables declaration//GEN-END:variables
 
 }

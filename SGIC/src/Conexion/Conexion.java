@@ -29,6 +29,9 @@ public class Conexion {
         //JOptionPane.showMessageDialog(null, "No se ha podido establecer una conexion a la BD "+ex);
     }
     return conn ;
-  }
+    }
+    
+   
+    
     
 }

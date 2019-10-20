@@ -52,7 +52,7 @@
               <Group type="102" alignment="0" attributes="0">
                   <EmptySpace min="-2" pref="44" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                      <Component id="btnConsultas" pref="134" max="32767" attributes="0"/>
+                      <Component id="btnDescargo" pref="134" max="32767" attributes="0"/>
                       <Component id="btnUpdateP" max="32767" attributes="0"/>
                       <Component id="btnAgregarP" pref="134" max="32767" attributes="0"/>
                   </Group>
@@ -67,8 +67,8 @@
                   <Component id="btnAgregarP" min="-2" pref="80" max="-2" attributes="0"/>
                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
                   <Component id="btnUpdateP" min="-2" pref="77" max="-2" attributes="0"/>
-                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                  <Component id="btnConsultas" min="-2" pref="76" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="11" max="-2" attributes="0"/>
+                  <Component id="btnDescargo" min="-2" pref="76" max="-2" attributes="0"/>
                   <EmptySpace pref="330" max="32767" attributes="0"/>
               </Group>
           </Group>
@@ -93,11 +93,17 @@
           <Properties>
             <Property name="text" type="java.lang.String" value="Actualizar"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnUpdatePActionPerformed"/>
+          </Events>
         </Component>
-        <Component class="javax.swing.JButton" name="btnConsultas">
+        <Component class="javax.swing.JButton" name="btnDescargo">
           <Properties>
-            <Property name="text" type="java.lang.String" value="jButton3"/>
+            <Property name="text" type="java.lang.String" value="Descargar Producto"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnDescargoActionPerformed"/>
+          </Events>
         </Component>
       </SubComponents>
     </Container>
