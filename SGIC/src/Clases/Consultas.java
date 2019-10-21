@@ -29,7 +29,7 @@ public class Consultas extends ConsultaProducto{
         DefaultTableModel tabla= new DefaultTableModel();
         String []titulos={"id","CODIGO", "MARCA", "TIPO","DESCRIPCION"," P.UNITARIO","CANTIDAD", "FECHA", "FECHA MOD","ESTADO", "USUARIO"};
         tabla.setColumnIdentifiers(titulos);
-        this.tblInv.setModel(tabla);
+        //.setModel(tabla);
         String consulta= "SELECT * FROM productos WHERE estado='Activo'";
         String []Datos= new String [11];
         try {

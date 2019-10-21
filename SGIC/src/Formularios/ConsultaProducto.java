@@ -4,7 +4,6 @@
  * and open the template in the editor.
  */
 package Formularios;
-import Clases.Consultas;
 import Conexion.Conexion;
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -12,20 +11,23 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 /**
  *
  * @author Alex
  */
 public class ConsultaProducto extends javax.swing.JFrame {
-    
-            
+    String band;
+    int f;
+    String filtro;
+    String sql;        
     /**
      * Creates new form ConsultaProducto
      */
     public ConsultaProducto() {
         initComponents();
-        cargartodoslosdatos();
+        TipoConsulta();
         
     }
 
@@ -41,27 +43,38 @@ public class ConsultaProducto extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        cbxTipo = new javax.swing.JComboBox<>();
         cbxF = new javax.swing.JComboBox<>();
         jButton1 = new javax.swing.JButton();
-        jTextField1 = new javax.swing.JTextField();
-        jScrollPane1 = new javax.swing.JScrollPane();
+        txtValor = new javax.swing.JTextField();
+        jButton2 = new javax.swing.JButton();
+        tbl = new javax.swing.JScrollPane();
         tblInv = new javax.swing.JTable();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
 
+        jLabel1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel1.setText("Filtrar");
 
-        cbxTipo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione uno", "Shampoo", "Gelatinas", "Acondicionador", " " }));
+        cbxF.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        cbxF.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione uno", "Codigo", "Marca", "Precio", "Cantidad" }));
 
-        cbxF.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione uno", "Fecha Creado", "Fecha Modificado", "Codigo", "Marca", "Precio", "Cantidad" }));
-
+        jButton1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jButton1.setText("Filtrar");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
+            }
+        });
+
+        txtValor.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+
+        jButton2.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jButton2.setText("Imprimir Reporte");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
             }
         });
 
@@ -73,14 +86,14 @@ public class ConsultaProducto extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(cbxTipo, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(cbxF, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(txtValor, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(259, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButton2)
+                .addContainerGap(177, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -88,22 +101,28 @@ public class ConsultaProducto extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
-                    .addComponent(cbxTipo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(cbxF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton1)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtValor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton2))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
+        tblInv.setAutoCreateRowSorter(true);
         tblInv.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
             },
             new String [] {
-
+                "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jScrollPane1.setViewportView(tblInv);
+        tblInv.setToolTipText("");
+        tblInv.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_ALL_COLUMNS);
+        tbl.setViewportView(tblInv);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -113,7 +132,7 @@ public class ConsultaProducto extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jScrollPane1))
+                    .addComponent(tbl))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -121,9 +140,9 @@ public class ConsultaProducto extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 375, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(tbl, javax.swing.GroupLayout.DEFAULT_SIZE, 344, Short.MAX_VALUE)
+                .addContainerGap(62, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -143,14 +162,112 @@ public class ConsultaProducto extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         
+        f = cbxF.getSelectedIndex();
+        filtro = txtValor.getText();
+        filtrar();
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        
+    }//GEN-LAST:event_jButton2ActionPerformed
     
+    void filtrar(){
+        System.out.println(f+" "+filtro);
+        
+        if(f == 1|| f == 2 || f == 3 || f == 4){
+            if(filtro.equals("")){
+                JOptionPane.showMessageDialog(null, "Ingrese un valor en campo de texto");
+                //System.out.println("S "+ filtro);
+            }else{
+                consulta(filtro);
+                //System.out.println("E "+ filtro);
+                Busqueda();
+            }
+        
+        }else{
+            JOptionPane.showMessageDialog(null, "Seleccione un filtro");
+        }
+        
+        
+        
+       //System.out.println(tipo + " " +f +" "+filtro);
+    }
+    void cargardatosdescargo(){
+        Conexion conn= new Conexion();
+        Connection cn = conn.Conexion();
+        
+        if(1==0){
+        //Usuario Administrador    
+            DefaultTableModel tabla= new DefaultTableModel();
+        String []titulos={"id","CODIGO", "MARCA", "TIPO","DESCRIPCION"," P.UNITARIO","CANTIDAD", "ESTADO","FECHA", "FECHA MODIFICACION", "USUARIO"};
+        tabla.setColumnIdentifiers(titulos);
+        this.tblInv.setModel(tabla);
+        String consulta= "SELECT * FROM productos WHERE estado='Descargo'";
+        String []Datos = new String [11];
+        try {
+            Statement st = cn.createStatement();
+            ResultSet rs= st.executeQuery(consulta);
+            while(rs.next())
+            {
+                Datos[0]=rs.getString("id");
+                Datos[1]=rs.getString("cod");
+                Datos[2]=rs.getString("marca");
+                Datos[3]=rs.getString("tipo");
+                Datos[4]=rs.getString("cant");
+                Datos[5]=rs.getString("descripcion");
+                Datos[6]=rs.getString("pUnitario");
+                Datos[7]=rs.getString("Estado");
+                Datos[8]=rs.getString("cFecha");
+                Datos[9]=rs.getString("mFecha");
+                Datos[10]=rs.getString("idUser");
+                
+                tabla.addRow(Datos);
+            }
+            
+            cerrarConexion();
+        } catch (SQLException ex) {
+            Logger.getLogger(ConsultaProducto.class.getName()).log(Level.SEVERE, null, ex);
+            cerrarConexion();
+        }
+        }else if(2==2){
+        //Uusario Normal    
+            DefaultTableModel tabla= new DefaultTableModel();
+        String []titulos={"id","CODIGO", "MARCA", "TIPO","DESCRIPCION"," P.UNITARIO","CANTIDAD", "ESTADO"};
+        tabla.setColumnIdentifiers(titulos);
+        this.tblInv.setModel(tabla);
+        String consulta= "SELECT * FROM productos WHERE estado='Descargo'";
+        String []Datos = new String [11];
+        try {
+            Statement st = cn.createStatement();
+            ResultSet rs= st.executeQuery(consulta);
+            while(rs.next())
+            {
+                Datos[0]=rs.getString("id");
+                Datos[1]=rs.getString("cod");
+                Datos[2]=rs.getString("marca");
+                Datos[3]=rs.getString("tipo");
+                Datos[4]=rs.getString("cant");
+                Datos[5]=rs.getString("descripcion");
+                Datos[6]=rs.getString("pUnitario");
+                Datos[7]=rs.getString("Estado");
+               
+                tabla.addRow(Datos);
+            }
+            cerrarConexion();
+        } catch (SQLException ex) {
+            Logger.getLogger(ConsultaProducto.class.getName()).log(Level.SEVERE, null, ex);
+            cerrarConexion();
+        }
+        }
+    }
     
     void cargartodoslosdatos(){
         Conexion conn= new Conexion();
         Connection cn = conn.Conexion();
         
-        DefaultTableModel tabla= new DefaultTableModel();
+        if(1==0){
+        //Usuario Administrador    
+            DefaultTableModel tabla= new DefaultTableModel();
         String []titulos={"id","CODIGO", "MARCA", "TIPO","DESCRIPCION"," P.UNITARIO","CANTIDAD", "ESTADO","FECHA", "FECHA MODIFICACION", "USUARIO"};
         tabla.setColumnIdentifiers(titulos);
         this.tblInv.setModel(tabla);
@@ -175,11 +292,146 @@ public class ConsultaProducto extends javax.swing.JFrame {
                 
                 tabla.addRow(Datos);
             }
+            
+            cerrarConexion();
         } catch (SQLException ex) {
             Logger.getLogger(ConsultaProducto.class.getName()).log(Level.SEVERE, null, ex);
+            cerrarConexion();
+        }
+        }else if(2==2){
+        //Uusario Normal    
+            DefaultTableModel tabla= new DefaultTableModel();
+        String []titulos={"id","CODIGO", "MARCA", "TIPO","DESCRIPCION"," P.UNITARIO","CANTIDAD", "ESTADO"};
+        tabla.setColumnIdentifiers(titulos);
+        this.tblInv.setModel(tabla);
+        String consulta= "SELECT * FROM productos WHERE estado='Activo'";
+        String []Datos = new String [11];
+        try {
+            Statement st = cn.createStatement();
+            ResultSet rs= st.executeQuery(consulta);
+            while(rs.next())
+            {
+                Datos[0]=rs.getString("id");
+                Datos[1]=rs.getString("cod");
+                Datos[2]=rs.getString("marca");
+                Datos[3]=rs.getString("tipo");
+                Datos[4]=rs.getString("cant");
+                Datos[5]=rs.getString("descripcion");
+                Datos[6]=rs.getString("pUnitario");
+                Datos[7]=rs.getString("Estado");
+               
+                tabla.addRow(Datos);
+            }
+            cerrarConexion();
+        } catch (SQLException ex) {
+            Logger.getLogger(ConsultaProducto.class.getName()).log(Level.SEVERE, null, ex);
+            cerrarConexion();
+        }
         }
         
     }    
+    
+   void Busqueda(){
+        
+        Conexion conn= new Conexion();
+        Connection cn = conn.Conexion();
+        DefaultTableModel tabla= new DefaultTableModel();
+        String []titulos={"id","CODIGO", "MARCA", "TIPO","DESCRIPCION"," P.UNITARIO","CANTIDAD", "ESTADO","FECHA", "FECHA MODIFICACION", "USUARIO"};
+        tabla.setColumnIdentifiers(titulos);
+        this.tblInv.setModel(tabla);
+        String []Datos = new String [11];
+        
+        try {
+             
+            Statement st= cn.createStatement();
+            ResultSet rs = st.executeQuery(sql);
+            
+            if(rs!=null){
+                while(rs.next())
+            {
+                Datos[0]=rs.getString("id");
+                Datos[1]=rs.getString("cod");
+                Datos[2]=rs.getString("marca");
+                Datos[3]=rs.getString("tipo");
+                Datos[4]=rs.getString("cant");
+                Datos[5]=rs.getString("descripcion");
+                Datos[6]=rs.getString("pUnitario");
+                Datos[7]=rs.getString("Estado");
+                Datos[8]=rs.getString("cFecha");
+                Datos[9]=rs.getString("mFecha");
+                Datos[10]=rs.getString("idUser");
+                
+                tabla.addRow(Datos);   
+            }
+            }else{
+                
+                JOptionPane.showMessageDialog(null, "Producto no Econtrado");
+            }
+                cerrarConexion();////JOptionPane.showMessageDialog(null, "Producto no Econtrado");
+            
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null,ex);
+            Logger.getLogger(NuevoProducto.class.getName()).log(Level.SEVERE, null, ex);
+            cerrarConexion();
+        }
+      
+    }
+   
+   void consulta(String valor){
+       int se = cbxF.getSelectedIndex();
+       
+       switch(se){
+           case 1:
+              sql = "SELECT `id`, cod, marca, tipo, Estado,cant, descripcion, pUnitario, cFecha,mFecha,idUser  FROM productos WHERE cod='"+valor+"';";
+           break;
+           
+           case 2:
+               sql = "SELECT `id`, cod, marca, tipo, Estado,cant, descripcion, pUnitario, cFecha,mFecha,idUser  FROM productos WHERE marca='"+valor+"';";
+           break;
+           
+           case 3:
+               sql = "SELECT `id`, cod, marca, tipo, Estado,cant, descripcion, pUnitario, cFecha,mFecha,idUser  FROM productos WHERE pUnitario='"+valor+"';";
+           break;
+           
+           case 4:
+               sql = "SELECT `id`, cod, marca, tipo, Estado,cant, descripcion, pUnitario, cFecha,mFecha,idUser  FROM productos WHERE cant='"+valor+"';";
+           break;
+       }
+   
+   }
+   
+     
+     public void cerrarConexion(){
+        Conexion conn= new Conexion();
+        Connection cn = conn.Conexion();
+        
+        if(cn != null){
+            try {
+                cn.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(ConsultaProducto.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        
+    }
+     
+    void TipoConsulta(){
+        Principal c = new Principal();
+        
+        if(c.band.equals("1")){
+            cargartodoslosdatos();
+            this.setTitle("Consulta de Productos");
+        }else if(c.band.equals("2")){
+            cargardatosdescargo();
+            this.setTitle("Consulta de Productos Descargados");
+        }else if(c.band.equals("3")){
+            JOptionPane.showMessageDialog(null, "Estamos trabajando en ellos xD");
+            this.setTitle("Consulta de Modificiaciones");
+        }else{
+            JOptionPane.showMessageDialog(null, "A sucedido un error ...???");
+        }
+    
+    }
     /**
      * @param args the command line arguments
      */
@@ -217,13 +469,15 @@ public class ConsultaProducto extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox<String> cbxF;
-    private javax.swing.JComboBox<String> cbxTipo;
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextField jTextField1;
-    public transient javax.swing.JTable tblInv;
+    private javax.swing.JScrollPane tbl;
+    private javax.swing.JTable tblInv;
+    private javax.swing.JTextField txtValor;
     // End of variables declaration//GEN-END:variables
+
+    
 }

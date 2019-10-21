@@ -6,6 +6,7 @@
 package Formularios;
 import Clases.Flags;
 import Clases.Productos;
+import java.io.File;
 /**
  *
  * @author Alex
@@ -34,6 +35,9 @@ public class Principal extends javax.swing.JFrame {
         btnAgregarP = new javax.swing.JButton();
         btnUpdateP = new javax.swing.JButton();
         btnDescargo = new javax.swing.JButton();
+        btnCProductos = new javax.swing.JButton();
+        btnCDescargo = new javax.swing.JButton();
+        btnCModif = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -62,6 +66,27 @@ public class Principal extends javax.swing.JFrame {
             }
         });
 
+        btnCProductos.setText("Consulta Productos");
+        btnCProductos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCProductosActionPerformed(evt);
+            }
+        });
+
+        btnCDescargo.setText("Consulta Descargo");
+        btnCDescargo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCDescargoActionPerformed(evt);
+            }
+        });
+
+        btnCModif.setText("Consulta Modificaciones");
+        btnCModif.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCModifActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -72,17 +97,28 @@ public class Principal extends javax.swing.JFrame {
                     .addComponent(btnDescargo, javax.swing.GroupLayout.DEFAULT_SIZE, 134, Short.MAX_VALUE)
                     .addComponent(btnUpdateP, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btnAgregarP, javax.swing.GroupLayout.DEFAULT_SIZE, 134, Short.MAX_VALUE))
-                .addContainerGap(622, Short.MAX_VALUE))
+                .addGap(34, 34, 34)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(btnCProductos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnCDescargo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnCModif, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(441, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(55, 55, 55)
-                .addComponent(btnAgregarP, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(btnCProductos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnAgregarP, javax.swing.GroupLayout.DEFAULT_SIZE, 80, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(btnUpdateP, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnUpdateP, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnCDescargo, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(11, 11, 11)
-                .addComponent(btnDescargo, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(btnDescargo, javax.swing.GroupLayout.DEFAULT_SIZE, 76, Short.MAX_VALUE)
+                    .addComponent(btnCModif, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(330, Short.MAX_VALUE))
         );
 
@@ -121,9 +157,37 @@ public class Principal extends javax.swing.JFrame {
        Funcion();
     }//GEN-LAST:event_btnDescargoActionPerformed
 
+    private void btnCProductosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCProductosActionPerformed
+        band = "1";
+        Funcion1();
+        
+        /*File paginaHTML = new File("documentosHTML/prueba.html");
+        String urlDocumento = "file://localhost/"+paginaHTML.getAbsolutePath();
+        Navegador minavegador = new Navegador(null, true, urlDocumento);
+        minavegador.setSize(800,600);
+        minavegador.setTitle("Consultas");
+        minavegador.setLocationRelativeTo(null);
+        minavegador.setVisible(true);*/
+    }//GEN-LAST:event_btnCProductosActionPerformed
+
+    private void btnCDescargoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCDescargoActionPerformed
+        band = "2";
+        Funcion1();
+    }//GEN-LAST:event_btnCDescargoActionPerformed
+
+    private void btnCModifActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCModifActionPerformed
+        band = "3";
+        Funcion1();
+    }//GEN-LAST:event_btnCModifActionPerformed
+
     void Funcion(){
         NuevoProducto p = new NuevoProducto();
         p.setVisible(true);
+    }
+    
+    void Funcion1(){
+        ConsultaProducto c = new ConsultaProducto();
+        c.setVisible(true);
     }
     /**
      * @param args the command line arguments
@@ -162,6 +226,9 @@ public class Principal extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAgregarP;
+    private javax.swing.JButton btnCDescargo;
+    private javax.swing.JButton btnCModif;
+    private javax.swing.JButton btnCProductos;
     private javax.swing.JButton btnDescargo;
     private javax.swing.JButton btnUpdateP;
     private javax.swing.JPanel jPanel1;
