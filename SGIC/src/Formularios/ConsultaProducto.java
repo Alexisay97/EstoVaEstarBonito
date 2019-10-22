@@ -9,10 +9,18 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.util.JRLoader;
+import net.sf.jasperreports.view.JasperViewer;
 /**
  *
  * @author Alex
@@ -44,9 +52,9 @@ public class ConsultaProducto extends javax.swing.JFrame {
         jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         cbxF = new javax.swing.JComboBox<>();
-        jButton1 = new javax.swing.JButton();
+        btnFiltro = new javax.swing.JButton();
         txtValor = new javax.swing.JTextField();
-        jButton2 = new javax.swing.JButton();
+        btnImprimir = new javax.swing.JButton();
         tbl = new javax.swing.JScrollPane();
         tblInv = new javax.swing.JTable();
 
@@ -58,23 +66,23 @@ public class ConsultaProducto extends javax.swing.JFrame {
         jLabel1.setText("Filtrar");
 
         cbxF.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        cbxF.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione uno", "Codigo", "Marca", "Precio", "Cantidad" }));
+        cbxF.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Todo", "Codigo", "Marca", "Precio", "Cantidad" }));
 
-        jButton1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jButton1.setText("Filtrar");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        btnFiltro.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        btnFiltro.setText("Filtrar");
+        btnFiltro.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                btnFiltroActionPerformed(evt);
             }
         });
 
         txtValor.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
 
-        jButton2.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jButton2.setText("Imprimir Reporte");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        btnImprimir.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        btnImprimir.setText("Imprimir Reporte");
+        btnImprimir.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                btnImprimirActionPerformed(evt);
             }
         });
 
@@ -90,9 +98,9 @@ public class ConsultaProducto extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(txtValor, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnFiltro, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton2)
+                .addComponent(btnImprimir)
                 .addContainerGap(177, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
@@ -102,9 +110,9 @@ public class ConsultaProducto extends javax.swing.JFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(cbxF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton1)
+                    .addComponent(btnFiltro)
                     .addComponent(txtValor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton2))
+                    .addComponent(btnImprimir))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -160,16 +168,16 @@ public class ConsultaProducto extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void btnFiltroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFiltroActionPerformed
         
         f = cbxF.getSelectedIndex();
         filtro = txtValor.getText();
         filtrar();
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_btnFiltroActionPerformed
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        
-    }//GEN-LAST:event_jButton2ActionPerformed
+    private void btnImprimirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnImprimirActionPerformed
+        reportes();
+    }//GEN-LAST:event_btnImprimirActionPerformed
     
     void filtrar(){
         System.out.println(f+" "+filtro);
@@ -184,14 +192,48 @@ public class ConsultaProducto extends javax.swing.JFrame {
                 Busqueda();
             }
         
-        }else{
-            JOptionPane.showMessageDialog(null, "Seleccione un filtro");
+        }else if(f == 0){
+            cargartodoslosdatos();
+           // JOptionPane.showMessageDialog(null, "Seleccione un filtro");
         }
         
         
         
        //System.out.println(tipo + " " +f +" "+filtro);
     }
+    
+    void reportes(){
+        String f1 = "cod";
+        //f1 = (String) cbxF.getSelectedItem();
+        String valor = "";
+        
+        try {
+            Conexion conn= new Conexion();
+            Connection cn = conn.Conexion();
+        
+            JasperReport reporte = null;
+            String path = "src\\Reportes\\Consultas.jasper";
+            
+            Map parametro = new HashMap();
+            parametro.put("filtroClta", f1);
+            //parametro.put("valorClta", valor);
+              
+            reporte = (JasperReport) JRLoader.loadObjectFromFile(path);
+            
+            JasperPrint jprint = JasperFillManager.fillReport(reporte, null, cn);
+            //System.out.println(parametro);
+            JasperViewer view = new JasperViewer(jprint, false);
+            
+            view.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+            view.setTitle("Reporte");
+            view.setVisible(true);
+            
+            
+        } catch (JRException ex) {
+            Logger.getLogger(ConsultaProducto.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
     void cargardatosdescargo(){
         Conexion conn= new Conexion();
         Connection cn = conn.Conexion();
@@ -213,9 +255,9 @@ public class ConsultaProducto extends javax.swing.JFrame {
                 Datos[1]=rs.getString("cod");
                 Datos[2]=rs.getString("marca");
                 Datos[3]=rs.getString("tipo");
-                Datos[4]=rs.getString("cant");
-                Datos[5]=rs.getString("descripcion");
-                Datos[6]=rs.getString("pUnitario");
+                Datos[4]=rs.getString("descripcion");
+                Datos[5]=rs.getString("pUnitario");
+                Datos[6]=rs.getString("cant");
                 Datos[7]=rs.getString("Estado");
                 Datos[8]=rs.getString("cFecha");
                 Datos[9]=rs.getString("mFecha");
@@ -246,9 +288,9 @@ public class ConsultaProducto extends javax.swing.JFrame {
                 Datos[1]=rs.getString("cod");
                 Datos[2]=rs.getString("marca");
                 Datos[3]=rs.getString("tipo");
-                Datos[4]=rs.getString("cant");
-                Datos[5]=rs.getString("descripcion");
-                Datos[6]=rs.getString("pUnitario");
+                Datos[4]=rs.getString("descripcion");
+                Datos[5]=rs.getString("pUnitario");
+                Datos[6]=rs.getString("cant");
                 Datos[7]=rs.getString("Estado");
                
                 tabla.addRow(Datos);
@@ -282,9 +324,9 @@ public class ConsultaProducto extends javax.swing.JFrame {
                 Datos[1]=rs.getString("cod");
                 Datos[2]=rs.getString("marca");
                 Datos[3]=rs.getString("tipo");
-                Datos[4]=rs.getString("cant");
-                Datos[5]=rs.getString("descripcion");
-                Datos[6]=rs.getString("pUnitario");
+                Datos[4]=rs.getString("descripcion");
+                Datos[5]=rs.getString("pUnitario");
+                Datos[6]=rs.getString("cant");
                 Datos[7]=rs.getString("Estado");
                 Datos[8]=rs.getString("cFecha");
                 Datos[9]=rs.getString("mFecha");
@@ -301,7 +343,7 @@ public class ConsultaProducto extends javax.swing.JFrame {
         }else if(2==2){
         //Uusario Normal    
             DefaultTableModel tabla= new DefaultTableModel();
-        String []titulos={"id","CODIGO", "MARCA", "TIPO","DESCRIPCION"," P.UNITARIO","CANTIDAD", "ESTADO"};
+        String []titulos={"id","CODIGO", "MARCA", "TIPO","CANTIDAD","DESCRIPCION","P.UNITARIO","ESTADO"};
         tabla.setColumnIdentifiers(titulos);
         this.tblInv.setModel(tabla);
         String consulta= "SELECT * FROM productos WHERE estado='Activo'";
@@ -331,7 +373,42 @@ public class ConsultaProducto extends javax.swing.JFrame {
         
     }    
     
-   void Busqueda(){
+    void cargarmodificados(){
+        
+        Conexion conn= new Conexion();
+        Connection cn = conn.Conexion();
+        
+        DefaultTableModel tabla= new DefaultTableModel();
+        String []titulos={"id","CODIGO", "MARCA", "TIPO","DESCRIPCION","CANTIDAD","P.UNITARIO","FECHA MODIFICADO"};
+        tabla.setColumnIdentifiers(titulos);
+        this.tblInv.setModel(tabla);
+        
+        String consulta= "SELECT * FROM productos  WHERE estado='Activo'";
+        String []Datos = new String [11];
+        try {
+            Statement st = cn.createStatement();
+            ResultSet rs= st.executeQuery(consulta);
+            while(rs.next())
+            {
+                Datos[0]=rs.getString("id");
+                Datos[1]=rs.getString("cod");
+                Datos[2]=rs.getString("marca");
+                Datos[3]=rs.getString("tipo");
+                Datos[4]=rs.getString("descripcion");
+                Datos[5]=rs.getString("cant");
+                Datos[6]=rs.getString("pUnitario");
+                Datos[7]=rs.getString("mFecha");
+               
+                tabla.addRow(Datos);
+            }
+            cerrarConexion();
+        } catch (SQLException ex) {
+            Logger.getLogger(ConsultaProducto.class.getName()).log(Level.SEVERE, null, ex);
+            cerrarConexion();
+        }
+    }
+    
+    void Busqueda(){
         
         Conexion conn= new Conexion();
         Connection cn = conn.Conexion();
@@ -401,7 +478,7 @@ public class ConsultaProducto extends javax.swing.JFrame {
    }
    
      
-     public void cerrarConexion(){
+    public void cerrarConexion(){
         Conexion conn= new Conexion();
         Connection cn = conn.Conexion();
         
@@ -425,7 +502,7 @@ public class ConsultaProducto extends javax.swing.JFrame {
             cargardatosdescargo();
             this.setTitle("Consulta de Productos Descargados");
         }else if(c.band.equals("3")){
-            JOptionPane.showMessageDialog(null, "Estamos trabajando en ellos xD");
+            cargarmodificados();
             this.setTitle("Consulta de Modificiaciones");
         }else{
             JOptionPane.showMessageDialog(null, "A sucedido un error ...???");
@@ -468,9 +545,9 @@ public class ConsultaProducto extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnFiltro;
+    private javax.swing.JButton btnImprimir;
     private javax.swing.JComboBox<String> cbxF;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;

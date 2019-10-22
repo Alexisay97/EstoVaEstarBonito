@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="61ac332b-7734-428a-96a8-83d13449168d">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<style name="table">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<subDataset name="Reporte" uuid="fa25b5c2-d250-4e13-8789-29e667c9f7c4">
+		<queryString language="SQL">
+			<![CDATA[SELECT
+     descargo.`id` AS descargo_id,
+     descargo.`idP` AS descargo_idP,
+     descargo.`cod` AS descargo_cod,
+     descargo.`fDescargo` AS descargo_fDescargo,
+     descargo.`cant` AS descargo_cant,
+     descargo.`pUnitario` AS descargo_pUnitario,
+     descargo.`tipo` AS descargo_tipo,
+     descargo.`idUser` AS descargo_idUser
+FROM
+     `descargo` descargo]]>
+		</queryString>
+		<field name="descargo_id" class="java.lang.Integer"/>
+		<field name="descargo_idP" class="java.lang.Integer"/>
+		<field name="descargo_cod" class="java.lang.Integer"/>
+		<field name="descargo_fDescargo" class="java.sql.Timestamp"/>
+		<field name="descargo_cant" class="java.lang.Integer"/>
+		<field name="descargo_pUnitario" class="java.lang.Float"/>
+		<field name="descargo_tipo" class="java.lang.String"/>
+		<field name="descargo_idUser" class="java.lang.Integer"/>
+		<group name="descargo_id">
+			<groupExpression><![CDATA[$F{descargo_id}]]></groupExpression>
+		</group>
+		<group name="descargo_idP">
+			<groupExpression><![CDATA[$F{descargo_idP}]]></groupExpression>
+		</group>
+		<group name="descargo_cod">
+			<groupExpression><![CDATA[$F{descargo_cod}]]></groupExpression>
+		</group>
+		<group name="descargo_fDescargo">
+			<groupExpression><![CDATA[$F{descargo_fDescargo}]]></groupExpression>
+		</group>
+	</subDataset>
+	<subDataset name="Table Dataset 1" uuid="1a7e9ba0-43c0-4fac-8654-2c88cd87467e"/>
+	<parameter name="filtroClta" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="valorClta" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[
+SELECT
+     descargo.`cod` AS descargo_cod,
+     descargo.`fDescargo` AS descargo_fDescargo,
+     descargo.`cant` AS descargo_cant,
+     descargo.`pUnitario` AS descargo_pUnitario,
+     descargo.`tipo` AS descargo_tipo,
+     usuarios.`user` AS usuarios_user
+FROM
+     `usuarios` usuarios INNER JOIN `descargo` descargo ON usuarios.`id` = descargo.`idUser`
+
+WHERE descargo.cod = '5'
+]]>
+	</queryString>
+	<field name="descargo_cod" class="java.lang.Integer"/>
+	<field name="descargo_fDescargo" class="java.sql.Timestamp"/>
+	<field name="descargo_cant" class="java.lang.Integer"/>
+	<field name="descargo_pUnitario" class="java.lang.Float"/>
+	<field name="descargo_tipo" class="java.lang.String"/>
+	<field name="usuarios_user" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="79" splitType="Stretch">
+			<staticText>
+				<reportElement x="65" y="18" width="415" height="42" uuid="ab276af7-e9b4-4dbf-9def-04115181c1a3"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="24"/>
+				</textElement>
+				<text><![CDATA[Resporte de Productos Descargados]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="21" splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="22" splitType="Stretch">
+			<rectangle>
+				<reportElement x="0" y="0" width="555" height="22" uuid="26368e7b-97f7-407a-a2d1-74d7d92c78a2"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="0" y="0" width="65" height="20" uuid="e3fcfc75-3375-4c6c-88c5-3049943fe0af"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[Codigo]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="65" y="0" width="121" height="20" uuid="6e161b35-512a-46d3-a624-59642e54df4b"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[Tipo de Producto]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="186" y="0" width="79" height="20" uuid="4e9f08f0-7602-48b6-9ae1-0f2f7457abeb"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[Cantidad]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="265" y="0" width="78" height="20" uuid="ccdec27a-f133-49e8-9834-581ce0604e17"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[Precio Unitario]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="343" y="0" width="137" height="20" uuid="fafe3df6-9a60-413c-b7a6-9388587e18eb"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[Fecha de Descargo]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="480" y="2" width="75" height="20" uuid="07144430-ee4d-4b4d-9094-d3f935691750"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[Usuario]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="26" splitType="Stretch">
+			<elementGroup/>
+			<rectangle>
+				<reportElement x="0" y="0" width="65" height="26" uuid="09ca0c5e-b657-4818-bfac-0a9e4899243d"/>
+			</rectangle>
+			<textField>
+				<reportElement x="0" y="0" width="65" height="26" uuid="a334c1af-ae74-4ac2-a709-07b14b262d58"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{descargo_cod}]]></textFieldExpression>
+			</textField>
+			<rectangle>
+				<reportElement x="65" y="0" width="121" height="26" uuid="b2e0246b-7914-44c8-b2ae-62a45deb6d06"/>
+			</rectangle>
+			<textField>
+				<reportElement x="65" y="0" width="121" height="26" uuid="cd3560bd-408a-4a9e-ab11-15d622d313ff"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{descargo_tipo}]]></textFieldExpression>
+			</textField>
+			<rectangle>
+				<reportElement x="186" y="0" width="79" height="26" uuid="c1d16280-258f-489a-b413-871a66c91409"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="265" y="0" width="78" height="26" uuid="8b94c80d-5681-4fa0-825a-75644494a347"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="343" y="0" width="137" height="26" uuid="34e623e5-29dc-40f4-84c2-df2ca8ce3e58"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="480" y="0" width="75" height="26" uuid="463c1618-2d04-4647-9b15-a4b4eefa6b00"/>
+			</rectangle>
+			<textField>
+				<reportElement x="480" y="0" width="75" height="26" uuid="2dad7935-0791-4dad-9acd-d0b44cd18692"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{usuarios_user}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="343" y="0" width="137" height="26" uuid="c7c5b576-cdd4-43bf-9efb-24cf4bba9fc2"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{descargo_fDescargo}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="265" y="0" width="78" height="26" uuid="ba0cdf1d-99ad-42ed-b1de-c29461f6e9b5"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{descargo_pUnitario}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="186" y="0" width="79" height="26" uuid="9be2dcbe-85b1-4c0f-94f7-dc7859642470"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{descargo_cant}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="4" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="23" splitType="Stretch">
+			<textField>
+				<reportElement x="196" y="3" width="80" height="20" uuid="83266157-2e17-453f-a81a-d995a69c2cd3"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement x="276" y="3" width="40" height="20" uuid="7516638e-8a1e-46b0-8f97-cc732f322f3b"/>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+	<summary>
+		<band height="24" splitType="Stretch"/>
+	</summary>
+</jasperReport>
