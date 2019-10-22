@@ -6,54 +6,133 @@
 package Clases;
 
 import Conexion.Conexion;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.swing.table.DefaultTableModel;
 import Formularios.ConsultaProducto;
 import java.sql.Connection;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import static javax.swing.WindowConstants.DISPOSE_ON_CLOSE;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.util.JRLoader;
+import net.sf.jasperreports.view.JasperViewer;
+
 /**
  *
  * @author Alex
  */
-public class Consultas extends ConsultaProducto{
+public class Consultas {
     
-    
-    
-    public void cargartodoslosdatos(){
-        Conexion conn= new Conexion();
-        Connection cn = conn.Conexion();
-        //ConsultaProducto c = new ConsultaProducto();
-        DefaultTableModel tabla= new DefaultTableModel();
-        String []titulos={"id","CODIGO", "MARCA", "TIPO","DESCRIPCION"," P.UNITARIO","CANTIDAD", "FECHA", "FECHA MOD","ESTADO", "USUARIO"};
-        tabla.setColumnIdentifiers(titulos);
-        //.setModel(tabla);
-        String consulta= "SELECT * FROM productos WHERE estado='Activo'";
-        String []Datos= new String [11];
-        try {
-            Statement st = cn.createStatement();
-            ResultSet rs= st.executeQuery(consulta);
-            while(rs.next())
-            {
-                Datos[0]=rs.getString("id");
-                Datos[1]=rs.getString("cod");
-                Datos[2]=rs.getString("marca");
-                Datos[3]=rs.getString("tipo");
-                Datos[4]=rs.getString("cant");
-                Datos[5]=rs.getString("descripcion");
-                Datos[6]=rs.getString("pUnitario");
-                Datos[7]=rs.getString("Estado");
-                Datos[8]=rs.getString("cFecha");
-                Datos[9]=rs.getString("mFecha");
-                Datos[10]=rs.getString("idUser");
-                
-                tabla.addRow(Datos);
-            }
-        } catch (SQLException ex) {
+   public void consultaProductos(){
+       try {
+            Conexion conn= new Conexion();
+            Connection cn = conn.Conexion();
+        
+            JasperReport reporte = null;
+            String path = "src\\Reportes\\ConsultaProductos.jasper";
+            
+            Map parametro = new HashMap();
+            //parametro.put("filtroClta", f1);
+            //parametro.put("valorClta", valor);
+              
+            reporte = (JasperReport) JRLoader.loadObjectFromFile(path);
+            
+            JasperPrint jprint = JasperFillManager.fillReport(reporte, null, cn);
+            JasperViewer view = new JasperViewer(jprint, false);
+            
+            view.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+            view.setTitle("Reporte");
+            view.setVisible(true);
+            
+            
+        } catch (JRException ex) {
             Logger.getLogger(ConsultaProducto.class.getName()).log(Level.SEVERE, null, ex);
         }
+   } 
+   
+   public void consultaDescargo(){
+       try {
+            Conexion conn= new Conexion();
+            Connection cn = conn.Conexion();
         
-    }    
+            JasperReport reporte = null;
+            String path = "src\\Reportes\\Consultas.jasper";
+            
+            Map parametro = new HashMap();
+            //parametro.put("filtroClta", f1);
+            //parametro.put("valorClta", valor);
+              
+            reporte = (JasperReport) JRLoader.loadObjectFromFile(path);
+            
+            JasperPrint jprint = JasperFillManager.fillReport(reporte, null, cn);
+            JasperViewer view = new JasperViewer(jprint, false);
+            
+            view.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+            view.setTitle("Reporte");
+            view.setVisible(true);
+            
+            
+        } catch (JRException ex) {
+            Logger.getLogger(ConsultaProducto.class.getName()).log(Level.SEVERE, null, ex);
+        }
+   }
+   
+   public void consultaModificaciones(){
+       try {
+            Conexion conn= new Conexion();
+            Connection cn = conn.Conexion();
+        
+            JasperReport reporte = null;
+            String path = "src\\Reportes\\ConsultaMod.jasper";
+            
+            Map parametro = new HashMap();
+            //parametro.put("filtroClta", f1);
+            //parametro.put("valorClta", valor);
+              
+            reporte = (JasperReport) JRLoader.loadObjectFromFile(path);
+            
+            JasperPrint jprint = JasperFillManager.fillReport(reporte, null, cn);
+            JasperViewer view = new JasperViewer(jprint, false);
+            
+            view.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+            view.setTitle("Reporte");
+            view.setVisible(true);
+            
+            
+        } catch (JRException ex) {
+            Logger.getLogger(ConsultaProducto.class.getName()).log(Level.SEVERE, null, ex);
+        }
+   }
+   
+   public void consultaUsuarios(){
+       try {
+            Conexion conn= new Conexion();
+            Connection cn = conn.Conexion();
+        
+            JasperReport reporte = null;
+            String path = "src\\Reportes\\ConsultaUsers.jasper";
+            
+            Map parametro = new HashMap();
+            //parametro.put("filtroClta", f1);
+            //parametro.put("valorClta", valor);
+              
+            reporte = (JasperReport) JRLoader.loadObjectFromFile(path);
+            
+            JasperPrint jprint = JasperFillManager.fillReport(reporte, null, cn);
+            JasperViewer view = new JasperViewer(jprint, false);
+            
+            view.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+            view.setTitle("Reporte");
+            view.setVisible(true);
+            
+            
+        } catch (JRException ex) {
+            Logger.getLogger(ConsultaProducto.class.getName()).log(Level.SEVERE, null, ex);
+        }
+   }
+   
+   
 }

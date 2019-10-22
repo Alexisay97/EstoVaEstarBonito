@@ -14,6 +14,7 @@ import java.io.File;
 public class Principal extends javax.swing.JFrame {
 
     public static String band;
+    public String band1;
     
     /**
      * Creates new form Principal
@@ -38,6 +39,7 @@ public class Principal extends javax.swing.JFrame {
         btnCProductos = new javax.swing.JButton();
         btnCDescargo = new javax.swing.JButton();
         btnCModif = new javax.swing.JButton();
+        btnUsers = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -87,6 +89,13 @@ public class Principal extends javax.swing.JFrame {
             }
         });
 
+        btnUsers.setText("Consulta Usuarios");
+        btnUsers.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnUsersActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -99,9 +108,11 @@ public class Principal extends javax.swing.JFrame {
                     .addComponent(btnAgregarP, javax.swing.GroupLayout.DEFAULT_SIZE, 134, Short.MAX_VALUE))
                 .addGap(34, 34, 34)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(btnCProductos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnCDescargo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnCModif, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(btnUsers, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(btnCProductos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnCDescargo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnCModif, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addContainerGap(441, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -119,7 +130,9 @@ public class Principal extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(btnDescargo, javax.swing.GroupLayout.DEFAULT_SIZE, 76, Short.MAX_VALUE)
                     .addComponent(btnCModif, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(330, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnUsers, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(249, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -143,6 +156,7 @@ public class Principal extends javax.swing.JFrame {
 
     private void btnAgregarPActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarPActionPerformed
         band = "1";
+        band1 = "1";
         Funcion();
         System.out.println(band);
     }//GEN-LAST:event_btnAgregarPActionPerformed
@@ -179,6 +193,11 @@ public class Principal extends javax.swing.JFrame {
         band = "3";
         Funcion1();
     }//GEN-LAST:event_btnCModifActionPerformed
+
+    private void btnUsersActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUsersActionPerformed
+        band = "4";
+        Funcion1();
+    }//GEN-LAST:event_btnUsersActionPerformed
 
     void Funcion(){
         NuevoProducto p = new NuevoProducto();
@@ -231,6 +250,7 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JButton btnCProductos;
     private javax.swing.JButton btnDescargo;
     private javax.swing.JButton btnUpdateP;
+    private javax.swing.JButton btnUsers;
     private javax.swing.JPanel jPanel1;
     // End of variables declaration//GEN-END:variables
 }

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 21-10-2019 a las 06:42:57
+-- Tiempo de generación: 22-10-2019 a las 07:37:38
 -- Versión del servidor: 10.1.37-MariaDB
 -- Versión de PHP: 7.2.12
 
@@ -51,7 +51,7 @@ CREATE TABLE `citas` (
 CREATE TABLE `descargo` (
   `id` int(11) NOT NULL,
   `idP` int(11) NOT NULL,
-  `cod` int(11) NOT NULL,
+  `cod` varchar(14) COLLATE utf8_spanish_ci NOT NULL,
   `fDescargo` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `cant` int(11) NOT NULL,
   `pUnitario` float NOT NULL,
@@ -64,8 +64,8 @@ CREATE TABLE `descargo` (
 --
 
 INSERT INTO `descargo` (`id`, `idP`, `cod`, `fDescargo`, `cant`, `pUnitario`, `tipo`, `idUser`) VALUES
-(1, 9, 5, '2019-10-20 19:47:35', 2, 2, 'Shampoo', 10),
-(2, 6, 2, '2019-10-21 04:11:31', 2, 2, 'Shampoo', 10);
+(1, 9, '5', '2019-10-20 19:47:35', 2, 2, 'Shampoo', 1),
+(2, 6, '2', '2019-10-21 04:11:31', 2, 2, 'Shampoo', 1);
 
 -- --------------------------------------------------------
 
@@ -76,7 +76,7 @@ INSERT INTO `descargo` (`id`, `idP`, `cod`, `fDescargo`, `cant`, `pUnitario`, `t
 CREATE TABLE `modificaciones` (
   `id` int(11) NOT NULL,
   `idP` int(11) NOT NULL,
-  `cod` int(11) NOT NULL,
+  `cod` varchar(14) COLLATE utf8_spanish_ci NOT NULL,
   `mFecha` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `idUser` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
@@ -89,7 +89,7 @@ CREATE TABLE `modificaciones` (
 
 CREATE TABLE `productos` (
   `id` int(11) NOT NULL,
-  `cod` int(11) NOT NULL,
+  `cod` varchar(14) COLLATE utf8_spanish_ci NOT NULL,
   `marca` varchar(25) COLLATE utf8_spanish_ci NOT NULL,
   `tipo` varchar(25) COLLATE utf8_spanish_ci NOT NULL,
   `cant` int(11) NOT NULL,
@@ -106,12 +106,12 @@ CREATE TABLE `productos` (
 --
 
 INSERT INTO `productos` (`id`, `cod`, `marca`, `tipo`, `cant`, `descripcion`, `pUnitario`, `Estado`, `cFecha`, `mFecha`, `idUser`) VALUES
-(5, 24, '2', 'Shampoo', 2, '2', 2, 'Activo', '2019-10-19', '2019-10-20 17:37:43', 10),
-(6, 2, '2', 'Shampoo', 2, '2', 2, 'Descargo', '2019-10-19', '2019-10-19 20:36:46', 10),
-(7, 3, 'Sedal', 'Shampoo', 32, 'frd', 34, 'Descargo', '2019-10-20', '2019-10-20 17:44:32', 10),
-(8, 4, 's', 'Shampoo', 1, 's', 1, 'Activo', '2019-10-20', '2019-10-20 17:46:00', 10),
-(9, 5, '2', 'Shampoo', 2, '2', 2, 'Descargo', '2019-10-20', '2019-10-20 17:46:55', 10),
-(10, 23, '2', 'Shampoo', 2, '2', 2, 'Activo', '2019-10-20', '2019-10-20 19:16:43', 10);
+(5, '1234567891234', 'Head & Soulders', 'Shampoo', 7, 'Shampoo Anticaspa con  olor limon fresco', 2, 'Activo', '2019-10-19', '2019-10-20 17:37:43', 1),
+(6, '2', '2', 'Shampoo', 7, '2', 2, 'Descargo', '2019-10-19', '2019-10-19 20:36:46', 1),
+(7, '3', 'Sedal', 'Shampoo', 32, 'frd', 34, 'Descargo', '2019-10-20', '2019-10-20 17:44:32', 1),
+(8, '4', 's', 'Shampoo', 1, 's', 1, 'Activo', '2019-10-20', '2019-10-20 17:46:00', 1),
+(9, '5', '2', 'Shampoo', 2, '2', 2, 'Descargo', '2019-10-20', '2019-10-20 17:46:55', 1),
+(10, '23', '2', 'Shampoo', 2, '2', 2, 'Activo', '2019-10-20', '2019-10-20 19:16:43', 1);
 
 -- --------------------------------------------------------
 
@@ -124,8 +124,17 @@ CREATE TABLE `usuarios` (
   `user` varchar(25) COLLATE utf8_spanish_ci NOT NULL,
   `passwd` varchar(64) COLLATE utf8_spanish_ci NOT NULL,
   `cFecha` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `nombre` varchar(25) COLLATE utf8_spanish_ci NOT NULL
+  `nombre` varchar(25) COLLATE utf8_spanish_ci NOT NULL,
+  `tipo` varchar(14) COLLATE utf8_spanish_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+
+--
+-- Volcado de datos para la tabla `usuarios`
+--
+
+INSERT INTO `usuarios` (`id`, `user`, `passwd`, `cFecha`, `nombre`, `tipo`) VALUES
+(1, 'pMontero', '123456', '2019-10-21 21:53:03', 'Pablo Montero', 'Administrador'),
+(2, 'jAlvares', '123456', '2019-10-22 04:57:40', 'Josue Alvares', 'Limitado');
 
 --
 -- Índices para tablas volcadas
@@ -195,7 +204,7 @@ ALTER TABLE `productos`
 -- AUTO_INCREMENT de la tabla `usuarios`
 --
 ALTER TABLE `usuarios`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- Restricciones para tablas volcadas
